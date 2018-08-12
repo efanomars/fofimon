@@ -47,7 +47,7 @@ void printVersion()
 }
 void printUsage()
 {
-	std::cout << "Usage: fofimon" << '\n';
+	std::cout << "Usage: fofimon [options]" << '\n';
 	std::cout << "Monitor selected folders and files for modifications." << '\n';
 	std::cout << "Options:" << '\n';
 	std::cout << "  -h --help               Prints this message." << '\n';
@@ -74,11 +74,20 @@ void printUsage()
 	std::cout << "Output options:" << '\n';
 	std::cout << "  --print-zones [OUT]       Prints directory zones (to OUT file if given)." << '\n';
 	std::cout << "  --print-watched [OUT]     Prints initial to be watched directories (to OUT file if given)." << '\n';
-	std::cout << "  -l --live-actions [OUT]   Prints single actions on files and directories as they happen" << '\n';
+	std::cout << "  -l --live-events [OUT]    Prints single events as they happen" << '\n';
 	std::cout << "                            (to OUT file if given)." << '\n';
-	std::cout << "  -o --print-modified [OUT] Output watched modifications (to OUT file if given)." << '\n';
-	std::cout << "  --show-detail             Show actions for each modified file or directory." << '\n';
+	std::cout << "  -o --print-modified [OUT] Prints watched modifications after Control-D is pressed" << '\n';
+	std::cout << "                            (to OUT file if given)." << '\n';
 	std::cout << "  --skip-temporary          Don't show temporary files in watched modifications." << '\n';
+	std::cout << "  --show-detail             Show more info (-l and -o outputs)." << '\n';
+	std::cout << "Output codes:" << '\n';
+	std::cout << "  Events (-l output):     State (-o output):" << '\n';
+	std::cout << "    C: create               C: created" << '\n';
+	std::cout << "    D: delete               D: deleted" << '\n';
+	std::cout << "    M: modify               M: modified" << '\n';
+	std::cout << "    A: attribute change     T: temporary" << '\n';
+	std::cout << "    f: rename from          ?: inconsistent" << '\n';
+	std::cout << "    t: rename to" << '\n';
 }
 void evalBoolArg(int& nArgC, char**& aArgV, const std::string& sOption1, const std::string& sOption2, std::string& sMatch, bool& bVar)
 {
@@ -255,8 +264,8 @@ const char* getActionCodeString(INotifierSource::FOFI_ACTION eA)
 		case INotifierSource::FOFI_ACTION_DELETE:       return "D"; break;
 		case INotifierSource::FOFI_ACTION_MODIFY:       return "M"; break;
 		case INotifierSource::FOFI_ACTION_ATTRIB:       return "A"; break;
-		case INotifierSource::FOFI_ACTION_RENAME_FROM:  return "F"; break;
-		case INotifierSource::FOFI_ACTION_RENAME_TO:    return "T"; break;
+		case INotifierSource::FOFI_ACTION_RENAME_FROM:  return "f"; break;
+		case INotifierSource::FOFI_ACTION_RENAME_TO:    return "t"; break;
 		default: return "???";
 	}
 }
