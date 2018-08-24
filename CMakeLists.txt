@@ -75,7 +75,12 @@ if (STMM_BUILD_FOFIMON_CLI)
   set(STMMF_FOFIMON_CLI_SOURCES
           ${STMMF_FOFIMON_SOURCES}
           ${STMMF_SOURCES_DIR}/cli/config.h
+          ${STMMF_SOURCES_DIR}/cli/evalargs.h
+          ${STMMF_SOURCES_DIR}/cli/evalargs.cc
+          ${STMMF_SOURCES_DIR}/cli/json.hpp
           ${STMMF_SOURCES_DIR}/cli/main.cc
+          ${STMMF_SOURCES_DIR}/cli/printout.h
+          ${STMMF_SOURCES_DIR}/cli/printout.cc
           )
 endif(STMM_BUILD_FOFIMON_CLI)
 #if (STMM_BUILD_FOFIMON_GUI)
