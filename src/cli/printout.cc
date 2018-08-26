@@ -335,7 +335,8 @@ void printResult(std::ostream& oOut, const FofiModel::WatchedResult& oResult, bo
 }
 void printCodeResultJSon(std::ostream& oOut, const FofiModel::WatchedResult& oResult, json& oJRes)
 {
-	oJRes["File"] = Glib::filename_to_utf8(Util::getPathFromDirAndName(oResult.m_sPath, oResult.m_sName));
+	oJRes["Path"] = Glib::filename_to_utf8(Util::getPathFromDirAndName(oResult.m_sPath, oResult.m_sName));
+	oJRes["Dir"] = oResult.m_bIsDir;
 	const char* p0Status = getResultTypeString(oResult.m_eResultType);
 	oJRes["Status"] = p0Status;
 	oJRes["Inconsistent"] = oResult.m_bInconsistent;
