@@ -1,0 +1,63 @@
+fofimon (0.9) unstable; urgency=low
+
+  * Website section
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Sat, 25 Apr 2020 19:29:39 +0100
+
+fofimon (0.8) unstable; urgency=low
+
+  * Add pylint3 to checkcode test
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Fri, 10 Apr 2020 19:29:39 +0100
+
+fofimon (0.7) unstable; urgency=low
+
+  * Add watch file to deb packaging
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Sat, 16 Nov 2019 19:29:39 +0100
+
+fofimon (0.6) unstable; urgency=low
+
+  * Apply iwyu
+  * Adapt build script to tarball deployment
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Thu, 24 Oct 2019 19:29:39 +0100
+
+fofimon (0.5) unstable; urgency=low
+
+  * Reduce code bloat by adding noexpect to methods
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Thu, 04 Jul 2019 19:29:39 +0100
+
+fofimon (0.4) unstable; urgency=low
+
+  * Add man page to source build
+  * Improve build scripts
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Mon, 25 Mar 2019 19:29:39 +0100
+
+fofimon (0.3) unstable; urgency=low
+
+  * Add arch PKGBUILD
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Wed, 13 Mar 2019 19:29:39 +0100
+
+fofimon (0.2) unstable; urgency=low
+
+  * Improve deb package creation script
+  * Increase minor version
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Tue, 12 Feb 2019 19:29:39 +0100
+
+fofimon (0.1) unstable; urgency=low
+
+  * Initial release
+
+ -- Stefano Marsili <efanomars@gmx.ch>  Mon, 19 Nov 2018 19:29:39 +0100

@@ -1,0 +1,220 @@
+.TH FOFIMON 1
+.SH NAME
+fofimon \- Monitor selected folders and files for modifications.
+.SH SYNOPSIS
+.TP 5
+\fBfofimon\fR [\fIOPTION\fR]
+.RI 
+.br
+
+.SH OPTIONS
+.PP
+.br
+\fB-v --version\fR            Prints version.
+.br
+.br
+\fB-h --help\fR               Prints this message.
+.br
+.br
+\fB--dont-watch\fR            Doesn't start watching.
+.br
+.br
+\fB-f --add-file\fR FILEPATH  Adds file FILEPATH to watch (unaffected by zone filters).
+.br
+.br
+\fB-z --add-zone\fR DIRPATH   Adds a watched zone with base directory DIRPATH.
+.br
+.br
+.br
+.PP
+\fBZONE OPTIONS\fR (must follow --add-zone):
+.PP
+.br
+.br
+\fB-m --max-depth\fR DEPTH    Sets the max depth of a zone. Examples of DEPTH:
+                          0: just watches the base path of the zone (default).
+                          1: watches base path and its direct subdirectories.
+                          N: watches base path and N levels of subdirectories.
+                          -1: watches all the directories in the subtree.
+.br
+.br
+\fB--pinned-file\fR NAME      File name that can't be excluded by the zone's filters.
+.br
+.br
+\fB--pinned-dir\fR NAME       Directory name that can't be excluded by the zone's filters.
+.br
+.br
+\fB--include-files\fR REGEX   Includes file name filter REGEX (POSIX).
+.br
+.br
+\fB--include-dirs\fR REGEX    Includes dir name filter REGEX (POSIX).
+.br
+.br
+\fB--exclude-files\fR REGEX   Excludes file name filter REGEX (POSIX). Overrides includes.
+.br
+.br
+\fB--exclude-dirs\fR REGEX    Excludes dir name filter REGEX (POSIX). Overrides includes.
+.br
+.br
+\fB--exclude-file\fR NAME     Excludes file name. Overrides includes.
+.br
+.br
+\fB--exclude-dir\fR NAME      Excludes dir name. Overrides includes.
+.br
+.br
+\fB--exclude-all\fR           Excludes all dir and file names. Overrides includes.
+                          Same as defining regular expression filters ".*".
+.br
+.br
+.br
+.PP
+\fBOUTPUT OPTIONS\fR (if OUT ends with '.json', json output is used):
+.PP
+.br
+.br
+\fB--print-zones\fR [OUT]       Prints directory zones (to OUT file if given).
+.br
+.br
+\fB--print-watched\fR [OUT]     Prints initial to be watched directories (to OUT file if given).
+.br
+.br
+\fB-l --live-events\fR [OUTL]   Prints single events as they happen
+                            (to OUTL file if given, no json).
+.br
+.br
+\fB-o --print-modified\fR [OUT] Prints watched modifications after Control-D is pressed
+                            (to OUT file if given).
+.br
+.br
+\fB--skip-temporary\fR          Don't show temporary files in watched modifications.
+.br
+.br
+\fB--show-detail\fR             Show more info (-l and -o outputs).
+.br
+.br
+.SH DESCRIPTION
+.PP
+This a command line tool based on inotify that watches directories,
+tracking the creation, removal, modification and renaming of files and
+(sub)directories.
+.PP
+\fIMotivation\fR
+.PP
+It might be useful if:
+
+  - You want to know all the files that are created when installing an
+    application or its plugins and extensions.
+
+  - You don't trust an application and want to know what files it modifies.
+
+  - You want to know where an application stores configuration files,
+    to then copy them when migrating to a new computer or hopping to a
+    new Linux distribution.
+
+.PP
+\fIUsage\fR
+.PP
+
+To determine which directories (and their content) should be watched,
+you have to define directory zones. A directory zone is defined with
+a base path, the maximum depth (depth 0 meaning only the files in the
+base path) and optionally inclusion and exclusion filters.
+All the directories that exist when fofimon is started or are created
+at runtime within the zone are watched.
+
+Note 1: fofimon doesn't follow symbolic links. Symbolic links to a
+directory are considered just files.
+
+Note 2: the base path of a directory zone mustn't necessarily
+exist when fofimon is started.
+
+Note 3: a directory zone the base path of which is within another
+directory zone shadows the ancestor.
+
+Beside directory zones, fofimon also allows one to watch single files.
+
+Before you run fofimon it is better to increase the maximum number of
+inotify watches (default is just 8192), especially if you want to watch
+most of the file system:
+
+    $ sudo sh -c 'echo 128000 >/proc/sys/fs/inotify/max_user_watches'
+
+If it runs out of inotify watches, fofimon stops. It's therefore important
+to set the number to a high enough value. To that end you can use fofimon
+itself (preferably using sudo)
+
+    $ fofimon  -z /  -m -1 --dont-watch
+
+which returns the current number of watchable directories in your system.
+
+.PP
+\fIUsage examples\fR
+.PP
+
+  To watch the changes in your home directory to a depth of 4
+  (subdirectories):
+
+    $ fofimon \\
+      -z ~/   -m 4  \\
+      -l /tmp/fofi-actions.txt  \\
+      -o /tmp/fofi-results.txt  \\
+      --print-watched /tmp/fofi-watched.txt
+
+  To watch the changes in the whole file system except the Trash:
+
+    $ sudo fofimon \\
+      -z / -m -1  \\
+      -z ~/.local/share/Trash  --exclude-all  \\
+      -l  \\
+      -o /tmp/fofi-results.txt
+
+.PP
+\fIOutput codes\fR
+.PP
+  Events (-l output):     State (-o output):
+    c: create               C: created
+    d: delete               D: deleted
+    m: modify               M: modified
+    a: attribute change     T: temporary
+    f: rename from          ?: inconsistent
+    t: rename to
+
+.PP
+\fILimitations\fR
+.PP
+Because of the limitations of the inotify API, which is inode based,
+fofimon can only make a best effort to detect the changed files.
+
+For instance, when a directory containing millions of files is renamed,
+the file system just assigns a new path to the directory inode,
+a simple operation that might last a few milliseconds. For fofimon, on the
+other hand, it means a lot of work. For each file and subdirectory in the
+renamed directory tree, it creates two entries, one for the source and one
+for the destination path.
+This can cause the loss of inotify events and consequently create
+inconsistencies in the reported results.
+In this kind of scenario it might be better to use inotifywait, which is
+available in most Linux distributions.
+
+In particular circumstances fofimon might also fail to detect temporary
+files if renaming is done from or to an unwatched directory.
+
+.SH AUTHOR
+.PP
+Written by Stefano Marsili <efanomars@gmx.ch>.
+
+.SH LICENSE
+.PP
+Copyright © 2018-2019 Stefano Marsili.
+
+.PP
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+.PP
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.

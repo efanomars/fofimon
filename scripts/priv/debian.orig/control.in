@@ -1,0 +1,24 @@
+Source: fofimon
+Priority: optional
+Maintainer: Stefano Marsili <efanomars@gmx.ch>
+Build-Depends: debhelper (>= 9)
+             , cmake
+             , python3
+             , libglibmm-2.4-dev (>= @FOFIMON_REQ_GLIBMM_VERSION@)
+Standards-Version: 3.9.8
+Section: libs
+Homepage: @STMMI_WEBSITE_SECTION@/fofimon
+Vcs-Git: https://www.gitlab.com/efanomars/fofimon.git
+#Vcs-Browser: https://www.gitlab.com/efanomars/fofimon.git
+
+
+Package: fofimon
+Section: utils
+Architecture: any
+Depends: libglibmm-2.4-1v5 (>= @FOFIMON_REQ_GLIBMM_VERSION@)
+       , ${shlibs:Depends}, ${misc:Depends}
+Description: Monitor selected folders and files for modifications
+ Command line tool based on inotify that watches directories,
+ tracking the creation, removal, modification and renaming of files and
+ (sub)directories.
+
