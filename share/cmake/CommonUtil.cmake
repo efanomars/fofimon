@@ -1,6 +1,6 @@
 # share/cmake/CommonUtil.cmake
 
-#  Copyright © 2019-2020  Stefano Marsili, <stemars@gmx.ch>
+#  Copyright © 2019  Stefano Marsili, <stemars@gmx.ch>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -72,44 +72,6 @@ function(DefineCommonCompileOptions STMMI_CPP_STD)
         endif()
     endif()
 endfunction(DefineCommonCompileOptions)
-
-# DefineAsSecondaryTarget    In script mode, create the target for a library
-#                               and sets its dependencies.
-#
-# Parameters:
-# STMMI_TARGET        The (library) target. Ex. 'stmm-input'.
-# STMMI_LIB_FILE      The library '.so' or '.a' file path.
-#                     Ex. "${PROJECT_SOURCE_DIR}/../libstmm-input/build/libstmm-input.so"
-# STMMI_INCLUDE_DIRS  The library's (non system) include directories.
-# STMMI_SUBPRJ_DEPS   The list of (non system library) dependencies (these are all targets!).
-#                     Ex. library stmm-input-gtk-dm would pass "stmm-input-gtk;stmm-input-ev;stmm-input-dl"
-# STMMI_SYS_LIBS      The additional librariy dependencies
-#
-function(DefineAsSecondaryTarget STMMI_TARGET  STMMI_LIB_FILE STMMI_INCLUDE_DIRS STMMI_SUBPRJ_DEPS STMMI_SYS_LIBS)
-    if (NOT ("${CMAKE_SCRIPT_MODE_FILE}" STREQUAL ""))
-        message(FATAL_ERROR "Function DefineAsSecondaryTarget cannot be called in script mode")
-    endif()
-    if (TARGET ${STMMI_TARGET})
-        return()
-    endif()
-    if (BUILD_SHARED_LIBS)
-        add_library(${STMMI_TARGET} SHARED IMPORTED)
-    else()
-        add_library(${STMMI_TARGET} STATIC IMPORTED)
-    endif()
-    set_target_properties(${STMMI_TARGET} PROPERTIES IMPORTED_LOCATION             "${STMMI_LIB_FILE}")
-    set_target_properties(${STMMI_TARGET} PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${STMMI_INCLUDE_DIRS}")
-    set(STMMI_TEMP_PROPS "")
-    foreach (STMMI_CUR_SUBPRJ_DEP  ${STMMI_SUBPRJ_DEPS})
-        get_target_property(STMMI_TEMP_SUBPRJ_PROP ${STMMI_CUR_SUBPRJ_DEP} INTERFACE_LINK_LIBRARIES)
-        list(APPEND STMMI_TEMP_PROPS "${STMMI_TEMP_SUBPRJ_PROP}")
-        list(APPEND STMMI_TEMP_PROPS "${STMMI_CUR_SUBPRJ_DEP}")
-    endforeach (STMMI_CUR_SUBPRJ_DEP  ${STMMI_SUBPRJ_DEPS})
-    if (NOT ("${STMMI_SYS_LIBS}" STREQUAL ""))
-        list(APPEND STMMI_TEMP_PROPS "${STMMI_SYS_LIBS}")
-    endif()
-    set_target_properties(${STMMI_TARGET} PROPERTIES INTERFACE_LINK_LIBRARIES      "${STMMI_TEMP_PROPS}")
-endfunction(DefineAsSecondaryTarget)
 
 # DefineTargetInterfaceCompileOptions    Define compile options for a header only library target
 #
