@@ -210,7 +210,7 @@ def transformFile(sFileName, sSourceFileDir, sDestFileDir, sPrivScriptDirPath, s
 	sParams = sParams + ' -D STMMI_AUTHOR_EMAIL="' + sAuthorEMail + '"'
 	sParams = sParams + ' -D STMMI_WEBSITE="' + sWebsite + '"'
 	sWebsiteAndSection = sWebsite
-	if sWebsiteSection == "":
+	if sWebsiteSection != "":
 		sWebsiteAndSection += "/" + sWebsiteSection
 	sParams = sParams + ' -D STMMI_WEBSITE_SECTION="' + sWebsiteAndSection + '"'
 	sParams = sParams + ' -D STMMI_AT="@"'

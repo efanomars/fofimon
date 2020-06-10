@@ -1,6 +1,6 @@
 # File: fofimon/fofimon-defs.cmake
 
-#  Copyright © 2019  Stefano Marsili, <stemars@gmx.ch>
+#  Copyright © 2019-2020  Stefano Marsili, <stemars@gmx.ch>
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #   MINOR is REVISION (implementation of interface)
 #   AGE is always 0
 set(FOFIMON_MAJOR_VERSION 0)
-set(FOFIMON_MINOR_VERSION 9) # !-U-!
+set(FOFIMON_MINOR_VERSION 10) # !-U-!
 set(FOFIMON_VERSION "${FOFIMON_MAJOR_VERSION}.${FOFIMON_MINOR_VERSION}.0")
 
 set(FOFIMON_REQ_GLIBMM_VERSION "2.50.0")
