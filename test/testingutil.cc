@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018  Stefano Marsili, <stemars@gmx.ch>
+ * Copyright © 2018-2020  Stefano Marsili, <stemars@gmx.ch>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ typedef struct stat Stat;
 
 namespace Private
 {
-void makeDir(const char* p0Dir)
+static void makeDir(const char* p0Dir)
 {
 	Stat oStat;
 
@@ -124,7 +124,7 @@ std::vector<std::string> splitAbsolutePath(const std::string& sPath)
 		//      ^
 		nBasePos = nNewPos + 1;
 	} while (true);
-	
+
 	return aRes;
 }
 

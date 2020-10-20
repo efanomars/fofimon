@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018-2019  Stefano Marsili, <stemars@gmx.ch>
+ * Copyright © 2018-2020  Stefano Marsili, <stemars@gmx.ch>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
 
 #include "printout.h"
 
-#include "../util.h"
+#include "util.h"
 
-#include "../inotifiersource.h"  // for INotifierSource, INotifierSource::FO...
+#include "inotifiersource.h"  // for INotifierSource, INotifierSource::FO...
 
 #include "nlohmann/json.hpp"
 
@@ -97,19 +97,19 @@ void printZoneJSon(std::ostream& oOut, const FofiModel::DirectoryZone& oDZ) noex
 	const char* const p0SubdirExcludeFilters = "Subdir exclude filters";
 
 	json oJZ;
-	oJZ["Path"] = Glib::filename_to_utf8(oDZ.m_sPath);
+	oJZ["Path"] = std::string{Glib::filename_to_utf8(oDZ.m_sPath)};
 	oJZ["Max depth"] = oDZ.m_nMaxDepth;
 	oJZ[p0PinnedFiles] = json::array();
 	auto& oJPinnedFiles = oJZ[p0PinnedFiles];
 	const auto& aPinnedFiles = oDZ.m_aPinnedFiles;
 	for (const auto& sPinnedFile : aPinnedFiles) {
-		oJPinnedFiles.push_back(Glib::filename_to_utf8(sPinnedFile));
+		oJPinnedFiles.push_back(std::string{Glib::filename_to_utf8(sPinnedFile)});
 	}
 	oJZ[p0PinnedSubdirs] = json::array();
 	auto& oJPinnedSubdirs = oJZ[p0PinnedSubdirs];
 	const auto& aPinnedSubDirs = oDZ.m_aPinnedSubDirs;
 	for (const auto& sPinnedSubDir : aPinnedSubDirs) {
-		oJPinnedSubdirs.push_back(Glib::filename_to_utf8(sPinnedSubDir));
+		oJPinnedSubdirs.push_back(std::string{Glib::filename_to_utf8(sPinnedSubDir)});
 	}
 	oJZ[p0FileIncludeFilters] = json::array();
 	auto& oJFileIncludeFilters = oJZ[p0FileIncludeFilters];
@@ -200,7 +200,7 @@ void printToWatchDirs(std::ostream& oOut, const FofiModel& oFofiModel, bool bDon
 			oOut << "              exists: " << (oTWD.exists() ? "yes" : "no") << '\n';
 		} else {
 			if (oTWD.exists()) {
-				oOut << "             watched: " << (oTWD.isWatched() ? "yes" : "no") << '\n';	
+				oOut << "             watched: " << (oTWD.isWatched() ? "yes" : "no") << '\n';
 			} else {
 				oOut << "              exists: no" << '\n';
 			}
@@ -221,14 +221,14 @@ void printToWatchDirsJSon(std::ostream& oOut, const FofiModel& oFofiModel, bool 
 			oOut << "," << '\n';
 		}
 		json oJTWD;
-		oJTWD["Path"] = Glib::filename_to_utf8(oTWD.m_sPathName);
+		oJTWD["Path"] = std::string{Glib::filename_to_utf8(oTWD.m_sPathName)};
 		#ifdef STMM_TRACE_DEBUG
 		oJTWD["Idx"] = nC;
 		#endif //STMM_TRACE_DEBUG
 		++nC;
 		const int32_t nDZ = oTWD.getOwnerDirectoryZone();
 		if (nDZ >= 0) {
-			oJTWD["Zone"] = Glib::filename_to_utf8(oDZs[nDZ].m_sPath);
+			oJTWD["Zone"] = std::string{Glib::filename_to_utf8(oDZs[nDZ].m_sPath)};
 			oJTWD["Depth"] = oTWD.m_nDepth;
 		} else {
 			oJTWD["Zone"] = "";
@@ -237,13 +237,13 @@ void printToWatchDirsJSon(std::ostream& oOut, const FofiModel& oFofiModel, bool 
 		auto& oJPinnedFiles = oJTWD[p0PinnedFiles];
 		const auto& aPinnedFiles = oTWD.m_aPinnedFiles;
 		for (const auto& sPinnedFile : aPinnedFiles) {
-			oJPinnedFiles.push_back(Glib::filename_to_utf8(sPinnedFile));
+			oJPinnedFiles.push_back(std::string{Glib::filename_to_utf8(sPinnedFile)});
 		}
 		oJTWD[p0PinnedSubdirs] = json::array();
 		auto& oJPinnedSubdirs = oJTWD[p0PinnedSubdirs];
 		const auto& aPinnedSubDirs = oTWD.m_aPinnedSubDirs;
 		for (const auto& sPinnedSubDirs : aPinnedSubDirs) {
-			oJPinnedSubdirs.push_back(Glib::filename_to_utf8(sPinnedSubDirs));
+			oJPinnedSubdirs.push_back(std::string{Glib::filename_to_utf8(sPinnedSubDirs)});
 		}
 		oJTWD["exists"] = oTWD.exists();
 		if (! bDontWatch) {
@@ -342,7 +342,7 @@ void printResult(std::ostream& oOut, const FofiModel::WatchedResult& oResult, bo
 }
 void printCodeResultJSon(std::ostream& oOut, const FofiModel::WatchedResult& oResult, json& oJRes) noexcept
 {
-	oJRes["Path"] = Glib::filename_to_utf8(Util::getPathFromDirAndName(oResult.m_sPath, oResult.m_sName));
+	oJRes["Path"] = std::string{Glib::filename_to_utf8(Util::getPathFromDirAndName(oResult.m_sPath, oResult.m_sName))};
 	oJRes["Dir"] = oResult.m_bIsDir;
 	const char* p0Status = getResultTypeString(oResult.m_eResultType);
 	oJRes["Status"] = p0Status;
@@ -364,7 +364,7 @@ void printDetailResultJSon(std::ostream& oOut, const FofiModel::WatchedResult& o
 		const bool bIsRenameFrom = (oAction.m_eAction == INotifierSource::FOFI_ACTION_RENAME_FROM);
 		if (bIsRenameFrom || (oAction.m_eAction == INotifierSource::FOFI_ACTION_RENAME_TO)) {
 			if (! oAction.m_sOtherPath.empty()) {
-				oJAction[(bIsRenameFrom ? "Renamed to" : "Renamed from")] = Glib::filename_to_utf8(oAction.m_sOtherPath);
+				oJAction[(bIsRenameFrom ? "Renamed to" : "Renamed from")] = std::string{Glib::filename_to_utf8(oAction.m_sOtherPath)};
 			}
 		}
 		oJActions.push_back(oJAction);
@@ -407,7 +407,7 @@ void printDetailLiveAction(std::ostream& oOut, const FofiModel::WatchedResult& o
 	oOut << Util::getTimeString(oAction.m_nTimeUsec, 1000 * 1000000);
 	const char* p0Action = getActionString(oAction.m_eAction);
 	oOut << " " << p0Action;
-	oOut << " " << Util::getPathFromDirAndName(oResult.m_sPath, oResult.m_sName) 
+	oOut << " " << Util::getPathFromDirAndName(oResult.m_sPath, oResult.m_sName)
 				<< ((oResult.m_bIsDir && oResult.m_sPath != "/") ? "/" : "");
 	const bool bIsRenameFrom = (oAction.m_eAction == INotifierSource::FOFI_ACTION_RENAME_FROM);
 	if (bIsRenameFrom || (oAction.m_eAction == INotifierSource::FOFI_ACTION_RENAME_TO)) {

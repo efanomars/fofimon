@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018-2019  Stefano Marsili, <stemars@gmx.ch>
+ * Copyright © 2018-2020  Stefano Marsili, <stemars@gmx.ch>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 #ifndef FOFIMON_PRINT_OUT_H_
 #define FOFIMON_PRINT_OUT_H_
 
-#include "../fofimodel.h"
+#include "fofimodel.h"
 
 #include <fstream>
 

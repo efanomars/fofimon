@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018-2019  Stefano Marsili, <stemars@gmx.ch>
+ * Copyright © 2018-2020  Stefano Marsili, <stemars@gmx.ch>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -89,9 +89,9 @@ public:
 		std::string m_sPath; /**< The base path. Mustn't necessarily exist. */
 		int32_t m_nMaxDepth = 0; /**< 0: only watch the base directory itself, 1: also direct subdirectories, and so on. Must be &gt;= 0. */
 
-		std::vector<Filter> m_aSubDirIncludeFilters; /**< A logical OR is applied among the filters. 
+		std::vector<Filter> m_aSubDirIncludeFilters; /**< A logical OR is applied among the filters.
 													 * If empty no filters are applied. Ex. "Config" watches only Config subdirectories. */
-		std::vector<Filter> m_aSubDirExcludeFilters; /**< A logical OR is applied among the filters. 
+		std::vector<Filter> m_aSubDirExcludeFilters; /**< A logical OR is applied among the filters.
 													 * If empty no filters are applied. Ex. "build","*.git" excludes build and git folders. */
 		std::vector<std::string> m_aPinnedSubDirs; /**< Subdirs names (no paths) that are watched despite the filters. */
 		//
@@ -194,8 +194,7 @@ public:
 	 * @return Empty string or error.
 	 */
 	std::string addDirectoryZone(DirectoryZone&& oDirectoryZone);
-	//TODO find out whether unused methods (for cli) are included in the binary
-	//TODO if they are use a macro to conditionally compile them
+
 	std::string removeDirectoryZone(const std::string& sPath);
 	const std::vector<DirectoryZone>& getDirectoryZones() const;
 	bool hasDirectoryZone(const std::string& sPath) const;

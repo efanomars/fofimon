@@ -5,7 +5,7 @@ pkgver=@STMMI_DEBIAN_SRC_VERSION@
 pkgrel=@STMMI_DEBIAN_REVISION@
 pkgdesc="Monitor selected folders and files for modifications"
 url='@STMMI_WEBSITE_SECTION@/@STMMI_SOURCE_PROJECT@'
-arch=('x86_64')
+arch=('x86_64' 'i686' 'aarch64')
 license=('GPL3')
 
 depends=('glibmm')

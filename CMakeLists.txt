@@ -1,19 +1,19 @@
-# File: fofimon/CMakeLists.txt
+# Copyright © 2019-2020  Stefano Marsili, <stemars@gmx.ch>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public
+# License along with this program; if not, see <http://www.gnu.org/licenses/>
 
-#  Copyright © 2019  Stefano Marsili, <stemars@gmx.ch>
-#
-#  This program is free software: you can redistribute it and/or modify
-#  it under the terms of the GNU General Public License as published by
-#  the Free Software Foundation, either version 3 of the License, or
-#  (at your option) any later version.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
-#
-#  You should have received a copy of the GNU General Public
-#  License along with this program; if not, see <http://www.gnu.org/licenses/>
+# File:   CMakeLists.txt
 
 cmake_minimum_required(VERSION 3.0)
 
@@ -44,12 +44,12 @@ set(STMMI_FOFIMON_SOURCES
 
 set(STMMI_FOFIMON_CLI_SOURCES
         ${STMMI_FOFIMON_SOURCES}
-        "${STMMI_SOURCES_DIR}/cli/config.h"
-        "${STMMI_SOURCES_DIR}/cli/evalargs.h"
-        "${STMMI_SOURCES_DIR}/cli/evalargs.cc"
-        "${STMMI_SOURCES_DIR}/cli/main.cc"
-        "${STMMI_SOURCES_DIR}/cli/printout.h"
-        "${STMMI_SOURCES_DIR}/cli/printout.cc"
+        "${STMMI_SOURCES_DIR}/config.h"
+        "${STMMI_SOURCES_DIR}/evalargs.h"
+        "${STMMI_SOURCES_DIR}/evalargs.cc"
+        "${STMMI_SOURCES_DIR}/main.cc"
+        "${STMMI_SOURCES_DIR}/printout.h"
+        "${STMMI_SOURCES_DIR}/printout.cc"
         )
 
 add_executable(fofimon  ${STMMI_FOFIMON_CLI_SOURCES} "${PROJECT_BINARY_DIR}/config.cc")
@@ -58,7 +58,7 @@ include("fofimon-defs.cmake")
 
 target_include_directories(fofimon SYSTEM PUBLIC ${FOFIMON_EXTRA_INCLUDE_DIRS})
 # This allows config.cc to find the config.h include
-target_include_directories(fofimon        PUBLIC "${STMMI_SOURCES_DIR}/cli")
+target_include_directories(fofimon        PUBLIC "${STMMI_SOURCES_DIR}")
 target_include_directories(fofimon        PUBLIC "share/thirdparty")
 
 target_link_libraries(fofimon     ${FOFIMON_EXTRA_LIBRARIES})
@@ -68,7 +68,7 @@ DefineTargetPublicCompileOptions(fofimon)
 include(GNUInstallDirs)
 
 # Create config file for executable
-configure_file("${STMMI_SOURCES_DIR}/cli/config.cc.in"
+configure_file("${STMMI_SOURCES_DIR}/config.cc.in"
                "${PROJECT_BINARY_DIR}/config.cc" @ONLY)
 
 if (STMM_INSTALL_MAN_PAGE)

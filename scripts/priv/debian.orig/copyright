@@ -3,7 +3,7 @@ Upstream-Name: fofimon
 Source: http://www.gitlab.com/efanomars/fofimon
 
 Files: *
-Copyright: 2018-2019 Stefano Marsili <efanomars@gmx.ch>
+Copyright: 2018-2020  Stefano Marsili <efanomars@gmx.ch>
 License: GPL-3
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -15,11 +15,11 @@ License: GPL-3
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
  .
- You should have received a copy of the GNU General Public License
- along with this program; if not, see <http://www.gnu.org/licenses/>
+ You should have received a copy of the GNU General Public
+ License along with this program; if not, see <http://www.gnu.org/licenses/>
  
 Files: debian/*
-Copyright: 2018-2019 Stefano Marsili <efanomars@gmx.ch>
+Copyright: 2018-2020  Stefano Marsili <efanomars@gmx.ch>
 License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

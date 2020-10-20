@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018-2019  Stefano Marsili, <stemars@gmx.ch>
+ * Copyright © 2018-2020  Stefano Marsili, <stemars@gmx.ch>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -347,7 +347,7 @@ void FofiModel::setDirectoryZone(ToWatchDir& oTWD)
 			oTWD.m_nMaxDepth = oDZ.m_nMaxDepth;
 			return; //----------------------------------------------------------
 		}
-	}	
+	}
 }
 void FofiModel::addExistingContent(ToWatchDir& oTWD)
 {
@@ -643,7 +643,7 @@ void FofiModel::createImmediateChildren(int32_t nParentTWDIdx, bool bWasAttrib, 
 			}
 			//
 			oWatchedResult.m_eResultType = (bExistedAtStart ? RESULT_MODIFIED : RESULT_CREATED);
-			
+
 			if (! bIsDir) {
 				if (bEmitWatchedResult) {
 					m_oWatchedResultActionSignal.emit(oWatchedResult);
@@ -1325,7 +1325,7 @@ void FofiModel::traverseRename(int32_t nFromParentTWDIdx
 		oActionData.m_sOtherPath = sToPath;
 		m_oWatchedResultActionSignal.emit(oWatchedResult);
 	}
-	
+
 	//
 	int32_t nToResultIdx = -1;
 	if (bToParentWatched) {

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2018-2019  Stefano Marsili, <stemars@gmx.ch>
+ * Copyright © 2018-2020  Stefano Marsili, <stemars@gmx.ch>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -105,7 +105,7 @@ int32_t FakeSource::removePath(int32_t nWatchIdx, int32_t nTag) noexcept
 	const int32_t nTotWatches = static_cast<int32_t>(m_aPathWatchTags.size());
 	#endif //NDEBUG
 	assert(nWatchIdx < nTotWatches);
-	
+
 	if (nWatchIdx < 0) {
 		nWatchIdx = findEntryByTag(nTag);
 		if (nWatchIdx < 0) {
@@ -129,7 +129,7 @@ int32_t FakeSource::renamePath(int32_t nFromWatchIdx, int32_t nFromTag, int32_t 
 	const int32_t nTotWatches = static_cast<int32_t>(m_aPathWatchTags.size());
 	#endif //NDEBUG
 	assert(nFromWatchIdx < nTotWatches);
-	
+
 	if (nFromWatchIdx < 0) {
 		nFromWatchIdx = findEntryByTag(nFromTag);
 		if (nFromWatchIdx < 0) {
