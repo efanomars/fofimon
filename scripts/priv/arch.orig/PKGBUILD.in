@@ -9,7 +9,7 @@ arch=('x86_64' 'i686' 'aarch64')
 license=('GPL3')
 
 depends=('glibmm')
-makedepends=('cmake' 'gcc' 'doxygen' 'graphviz' 'python')
+makedepends=('cmake' 'python')
 optdepends=()
 
 #provides=("@STMMI_SOURCE_PROJECT@")
